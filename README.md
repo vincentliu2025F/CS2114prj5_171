@@ -1,10 +1,10 @@
 Team Member Names:
 
 
-Masako Orlando
-Vincent Liu
-Nabil Farah
-Ryan Jeronimus
+Masako Orlando  
+Vincent Liu  
+Nabil Farah  
+Ryan Jeronimus  
 
 Communication Plan
 
