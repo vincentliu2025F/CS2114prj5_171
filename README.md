@@ -3,7 +3,7 @@ Team Member Names:
 
 Masako Orlando  
 Vincent Liu  
-Nabil Farah  
+Nabiil Farah  
 Ryan Jeronimus  
 
 Communication Plan
@@ -19,7 +19,7 @@ Contact information
 Ryan Jeronimus - ryanjeronimus@vt.edu  
 Masako Orlando - masako@vt.edu  
 Vincent Liu  
-Nabil Farah  
+Nabiil Farah   - nabiilf@vt.edu 
 
 
 All team members will:
