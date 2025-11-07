@@ -12,7 +12,7 @@ We are aiming to have a complete submission 2 days before the submission deadlin
 
 Contact information
 Ryan Jeronimus - ryanjeronimus@vt.edu
-Masako Orlando
+Masako Orlando - masako@vt.edu
 Vincent Liu
 Nabil Farah
 All team members will:
