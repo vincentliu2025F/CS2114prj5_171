@@ -9,7 +9,7 @@ public class ryanjeronimus
     
     public static void main(String[] args) {
 
-        System.out.println("Glad to be on your team, from Vincent");
+        System.out.println("Glad to be on your team, from Masako");
     }     
 
 }
