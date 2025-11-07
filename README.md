@@ -18,7 +18,7 @@ Contact information
 
 Ryan Jeronimus - ryanjeronimus@vt.edu  
 Masako Orlando - masako@vt.edu  
-Vincent Liu  - vincentliu@vt.edu
+Vincent Liu  - vincentliu@vt.edu   
 Nabiil Farah   - nabiilf@vt.edu 
 
 
