@@ -33,7 +33,7 @@ public class InputFileReader {
 
             String month = values[0].trim();
             String username = values[1].trim();
-            String channelName = values[2].trim();
+            String channel = values[2].trim();
             String country = values[3].trim();
             String mainTopic = values[4].trim();
 
@@ -47,9 +47,9 @@ public class InputFileReader {
             int comments = toInt(values[8].trim());
             int views = toInt(values[9].trim());
 
-            Influencer influencer = findInfluencerByChannel(channelName);
+            Influencer influencer = findInfluencerByChannel(channel);
             if (influencer == null) {
-                influencer = new Influencer(username, channelName, country, mainTopic);
+                influencer = new Influencer(username, channel, country, mainTopic);
                 influencerList.add(influencer);
             }
 
@@ -83,10 +83,10 @@ public class InputFileReader {
         }
     }
 
-    private Influencer findInfluencerByChannel(String channelName) {
+    private Influencer findInfluencerByChannel(String channel) {
         for (int i = 0; i < influencerList.getSize(); i++) {
             Influencer current = influencerList.get(i);
-            if (current.getChannelName().equals(channelName)) {
+            if (current.getchannel().equals(channel)) {
                 return current;
             }
         }
