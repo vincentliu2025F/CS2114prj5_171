@@ -42,11 +42,10 @@ public class InfluencerListTest
         testList.add(0, testInfluencer);
         assertEquals(4, testList.getSize());
         assertEquals(testInfluencer, testList.getEntry(0));
-        
+
         testList.add(2, testInfluencer);
         assertEquals(5, testList.getSize());
         assertEquals(testInfluencer, testList.getEntry(2));
-        
 
         Exception e = null;
 
@@ -264,6 +263,33 @@ public class InfluencerListTest
         assertEquals("alpha", list.getEntry(0).getChannelName());
         assertEquals("MIdChannel", list.getEntry(1).getChannelName());
         assertEquals("zChannel", list.getEntry(2).getChannelName());
+    }
+
+
+    public void testSortByChannelNameFullCoverage()
+    {
+        InfluencerList list = new InfluencerList();
+        Influencer first = new Influencer("test1", "test1", "test1", "test1");
+        list.add(first);
+
+        list.sortByChannelName();
+        assertEquals("test1", list.getEntry(0).getChannelName());
+        Influencer before = new Influencer("test2", "test2", "test2", "test2");
+        list.add(before);
+
+        list.sortByChannelName();
+        assertEquals("test1", list.getEntry(0).getChannelName());
+        assertEquals("test2", list.getEntry(1).getChannelName());
+
+        // Case 3: insert AFTER the head (comparator > 0)
+        Influencer after = new Influencer("test3", "test3", "test3", "test3");
+        list.add(after);
+
+        list.sortByChannelName();
+
+        assertEquals("test1", list.getEntry(0).getChannelName());
+        assertEquals("test2", list.getEntry(1).getChannelName());
+        assertEquals("test3", list.getEntry(2).getChannelName());
     }
 
 
