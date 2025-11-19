@@ -2,6 +2,7 @@ package prj5;
 
 import java.io.IOException;
 import java.util.Scanner;
+import student.IOHelper;
 
 /**
  * Reads and parses the influencer data CSV file. Stores data for each
