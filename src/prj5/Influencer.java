@@ -363,28 +363,78 @@ public class Influencer
         monthlyStats[monthIndex].views = views;
 
     }
-    
+
+
     // ----------------------------------------------------------
     /**
      * Calculates traditional reach for Q1
+     * 
      * @return traditional reach for Q1
      */
-    public double calculateTraditionalRateQ1() {
+    public double calculateTraditionalRateQ1()
+    {
 
         double totalLikes = 0;
         double totalComments = 0;
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 3; i++)
+        {
             totalLikes += monthlyStats[i].likes;
             totalComments += monthlyStats[i].comments;
         }
 
         double marchFollowers = monthlyStats[2].followers;
 
-        if (marchFollowers == 0) {
+        if (marchFollowers == 0)
+        {
             return Double.NaN;
         }
 
         return (totalLikes + totalComments) / marchFollowers;
     }
+
+
+    /**
+     * Determines if this object is equal to passed object
+     * 
+     * @param obj-
+     *            object to be compared
+     * @return whether or not the two objects are equal
+     */
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+        {
+            return true;
+        }
+        if (obj == null || obj.getClass() != this.getClass())
+        {
+            return false;
+        }
+
+        Influencer other = (Influencer)obj;
+
+        if (!this.channelName.equals(other.channelName)
+            || !this.username.equals(other.username)
+            || !this.country.equals(other.country)
+            || !this.topics.equals(other.topics))
+        {
+            return false;
+        }
+
+        for (int i = 0; i < 12; i++)
+        {
+            if (this.monthlyStats[i].likes != other.monthlyStats[i].likes
+                || this.monthlyStats[i].comments != other.monthlyStats[i].comments
+                || this.monthlyStats[i].views != other.monthlyStats[i].views
+                || this.monthlyStats[i].posts != other.monthlyStats[i].posts
+                || this.monthlyStats[i].followers != other.monthlyStats[i].followers)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
 }
