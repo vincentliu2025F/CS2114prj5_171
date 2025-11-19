@@ -280,8 +280,6 @@ public class InfluencerListTest
         list.sortByChannelName();
         assertEquals("test1", list.getEntry(0).getChannelName());
         assertEquals("test2", list.getEntry(1).getChannelName());
-
-        // Case 3: insert AFTER the head (comparator > 0)
         Influencer after = new Influencer("test3", "test3", "test3", "test3");
         list.add(after);
 

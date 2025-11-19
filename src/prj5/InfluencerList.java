@@ -378,5 +378,4 @@ public class InfluencerList
         return this.size;
     }
 
-
 }
