@@ -2,6 +2,13 @@ package prj5;
 
 import student.TestCase;
 
+// -------------------------------------------------------------------------
+/**
+ * JUNIT tests for the influencerlist class
+ * 
+ * @author ryanjeronimus
+ * @version Nov 19, 2025
+ */
 public class InfluencerListTest
     extends TestCase
 {
@@ -20,6 +27,10 @@ public class InfluencerListTest
     }
 
 
+    // ----------------------------------------------------------
+    /**
+     * Testing the Add method
+     */
     public void testAdd()
     {
         String test = "test";
@@ -29,6 +40,10 @@ public class InfluencerListTest
     }
 
 
+    // ----------------------------------------------------------
+    /**
+     * testing add at a given index
+     */
     public void testAddWithIndex()
     {
         String test = "test";
@@ -74,6 +89,10 @@ public class InfluencerListTest
     }
 
 
+    // ----------------------------------------------------------
+    /**
+     * Testing the remove method
+     */
     public void testRemove()
     {
         String test = "test";
@@ -115,6 +134,10 @@ public class InfluencerListTest
     }
 
 
+    // ----------------------------------------------------------
+    /**
+     * Test the clear method
+     */
     public void testClear()
     {
         String test = "test";
@@ -127,6 +150,10 @@ public class InfluencerListTest
     }
 
 
+    // ----------------------------------------------------------
+    /**
+     * Test the replace method
+     */
     public void testReplace()
     {
 
@@ -172,6 +199,10 @@ public class InfluencerListTest
     }
 
 
+    // ----------------------------------------------------------
+    /**
+     * JUNIT tests for getentry()
+     */
     public void testGetEntry()
     {
         String test = "test";
@@ -211,6 +242,10 @@ public class InfluencerListTest
     }
 
 
+    // ----------------------------------------------------------
+    /**
+     * toArray() test method
+     */
     public void testToArray()
     {
         String test = "test";
@@ -234,6 +269,10 @@ public class InfluencerListTest
     }
 
 
+    // ----------------------------------------------------------
+    /**
+     * test the getSize() method
+     */
     public void testGetSize()
     {
         String test = "test";
@@ -246,6 +285,10 @@ public class InfluencerListTest
     }
 
 
+    // ----------------------------------------------------------
+    /**
+     * Test insertion sort by channel name
+     */
     public void testSortByChannelName()
     {
         InfluencerList list = new InfluencerList();
@@ -266,6 +309,10 @@ public class InfluencerListTest
     }
 
 
+    // ----------------------------------------------------------
+    /**
+     * test insertion sort by channel name again to get full coverage
+     */
     public void testSortByChannelNameFullCoverage()
     {
         InfluencerList list = new InfluencerList();
@@ -291,6 +338,10 @@ public class InfluencerListTest
     }
 
 
+    // ----------------------------------------------------------
+    /**
+     * insertion sort by reach rate
+     */
     public void testSortByReachRate()
     {
         InfluencerList list = new InfluencerList();
@@ -321,6 +372,10 @@ public class InfluencerListTest
     }
 
 
+    // ----------------------------------------------------------
+    /**
+     * tests the contains method
+     */
     public void testContains()
     {
         String test = "test";
@@ -338,6 +393,10 @@ public class InfluencerListTest
     }
 
 
+    // ----------------------------------------------------------
+    /**
+     * tests the getlength method
+     */
     public void testGetLength()
     {
         String test = "test";
@@ -354,6 +413,10 @@ public class InfluencerListTest
     }
 
 
+    // ----------------------------------------------------------
+    /**
+     * JUNIT testing for isEmpty()
+     */
     public void testIsEmpty()
     {
         String test = "test";
@@ -370,6 +433,10 @@ public class InfluencerListTest
     }
 
 
+    // ----------------------------------------------------------
+    /**
+     * testing the getFront() method
+     */
     public void testGetFront()
     {
         String test = "test";
