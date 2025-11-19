@@ -57,14 +57,28 @@ public class InfluencerList
 
     private Node<Influencer> firstNode;
     private int size;
+    private InfluencerNameComparator nameComparator;
+    private InfluencerReachRateComparator reachRateComparator;
 
+    // ----------------------------------------------------------
+    /**
+     * Create a new InfluencerList object.
+     */
     public InfluencerList()
     {
         firstNode = null;
         size = 0;
+        nameComparator = new InfluencerNameComparator();
+        reachRateComparator = new InfluencerReachRateComparator();
     }
 
 
+    /**
+     * Add influencer to list
+     * 
+     * @param newEntry
+     *            - new influencer to be added
+     */
     @Override
     public void add(Influencer newEntry)
     {
@@ -76,16 +90,25 @@ public class InfluencerList
     }
 
 
+    /**
+     * Add influencer to list at a certain positions
+     * 
+     * @param newEntry
+     *            - new influencer to be added
+     * @param newPosition
+     *            - index to add influencer
+     */
     @Override
     public void add(int newPosition, Influencer newEntry)
     {
-        if (newPosition < 1 || newPosition > size + 1)
+        if (newPosition < 0 || newPosition > size)
         {
             throw new IndexOutOfBoundsException("Illegal position argument");
         }
 
         Node<Influencer> newNode = new Node<>(newEntry);
-        if (newPosition == 1)
+
+        if (newPosition == 0)
         {
             newNode.setNext(firstNode);
             firstNode = newNode;
@@ -93,7 +116,7 @@ public class InfluencerList
         else
         {
             Node<Influencer> nodeBefore = firstNode;
-            for (int i = 1; i < newPosition - 1; i++)
+            for (int i = 0; i < newPosition - 1; i++)
             {
                 nodeBefore = nodeBefore.getNext();
             }
@@ -101,41 +124,50 @@ public class InfluencerList
             nodeBefore.setNext(newNode);
         }
         size++;
-
     }
 
 
+    /**
+     * Remove influencer from list at a specified position
+     * 
+     * @param givenPosition
+     *            - index at which influencer should be removed
+     */
     @Override
     public Influencer remove(int givenPosition)
     {
-        if (givenPosition < 1 || givenPosition > size)
+        if (givenPosition < 0 || givenPosition >= size)
         {
             throw new IndexOutOfBoundsException("Illegal position argument");
         }
-        Influencer currInfluencer;
-        if (givenPosition == 1)
+
+        Influencer result;
+
+        if (givenPosition == 0)
         {
-            currInfluencer = firstNode.getData();
+            result = firstNode.getData();
             firstNode = firstNode.getNext();
         }
         else
         {
             Node<Influencer> nodeBefore = firstNode;
-            for (int i = 1; i < givenPosition - 1; i++)
+            for (int i = 0; i < givenPosition - 1; i++)
             {
                 nodeBefore = nodeBefore.getNext();
             }
-
-            Node<Influencer> remover = nodeBefore.getNext();
-            currInfluencer = remover.getData();
-            nodeBefore.setNext(remover.getNext());
+            Node<Influencer> removeNode = nodeBefore.getNext();
+            result = removeNode.getData();
+            nodeBefore.setNext(removeNode.getNext());
         }
 
         size--;
-        return currInfluencer;
+        return result;
     }
 
 
+    /**
+     * Clears the Influencer list.
+     */
     @Override
     public void clear()
     {
@@ -145,33 +177,52 @@ public class InfluencerList
     }
 
 
+    /**
+     * Replaces the influencer at the given position with a new influencer
+     * 
+     * @param givenPosition
+     *            - position of influencer to be replaced
+     * @param newEntry
+     *            - new influencer to be added
+     * @return influencer that was removed.
+     */
     @Override
     public Influencer replace(int givenPosition, Influencer newEntry)
     {
-        if (givenPosition < 1 || givenPosition > size)
+        if (givenPosition < 0 || givenPosition >= size)
         {
             throw new IndexOutOfBoundsException("Illegal position argument");
         }
+
         Node<Influencer> currentNode = firstNode;
-        for (int i = 1; i < givenPosition; i++)
+        for (int i = 0; i < givenPosition; i++)
         {
             currentNode = currentNode.getNext();
         }
+
         Influencer oldData = currentNode.getData();
         currentNode.setData(newEntry);
         return oldData;
     }
 
 
+    /**
+     * Returns an influencer at a specified position
+     * 
+     * @param givenPosition
+     *            - position to grab influencer
+     * @return grabbed influencer
+     */
     @Override
     public Influencer getEntry(int givenPosition)
     {
-        if (givenPosition < 1 || givenPosition > size)
+        if (givenPosition < 0 || givenPosition >= size)
         {
             throw new IndexOutOfBoundsException("Illegal position argument");
         }
+
         Node<Influencer> currentNode = firstNode;
-        for (int i = 1; i < givenPosition; i++)
+        for (int i = 0; i < givenPosition; i++)
         {
             currentNode = currentNode.getNext();
         }
@@ -179,6 +230,11 @@ public class InfluencerList
     }
 
 
+    /**
+     * Converts linked influencer list to an array
+     * 
+     * @return - array form of the linked list
+     */
     @Override
     public Object[] toArray()
     {
@@ -193,6 +249,13 @@ public class InfluencerList
     }
 
 
+    /**
+     * checks if the list contains a specified influencer
+     * 
+     * @param anEntry
+     *            - influencer to check for
+     * @return boolean value - found or not
+     */
     @Override
     public boolean contains(Influencer anEntry)
     {
@@ -210,6 +273,11 @@ public class InfluencerList
     }
 
 
+    /**
+     * Returns the length of the list
+     * 
+     * @return length of list
+     */
     @Override
     public int getLength()
     {
@@ -217,10 +285,97 @@ public class InfluencerList
     }
 
 
+    /**
+     * Checks if list is empty or not
+     * 
+     * @return boolean value representing whether the list is empty or not
+     */
     @Override
     public boolean isEmpty()
     {
         return this.size == 0;
+    }
+
+
+    /**
+     * Returns the front Influencer
+     * 
+     * @return front influencer
+     */
+    public Influencer getFront()
+    {
+        return firstNode.getData();
+
+    }
+
+
+    /**
+     * Uses insertion sort to sort the list by channel name (alphanumeric)
+     */
+    public void sortByChannelName()
+    {
+        insertionSort(this.nameComparator);
+    }
+
+
+    /**
+     * Sorts the influencer list by reach rate
+     */
+    public void sortByReachRate()
+    {
+        insertionSort(this.reachRateComparator);
+    }
+
+
+    private Node<Influencer> sortedInsert(
+        Node<Influencer> node,
+        Node<Influencer> sortedHead,
+        Comparator<Influencer> comparator)
+    {
+        if (sortedHead == null
+            || comparator.compare(node.getData(), sortedHead.getData()) <= 0)
+        {
+            node.setNext(sortedHead);
+            return node;
+        }
+
+        Node<Influencer> curr = sortedHead;
+        while (curr.getNext() != null
+            && comparator.compare(node.getData(), curr.getNext().getData()) > 0)
+        {
+            curr = curr.getNext();
+        }
+
+        node.setNext(curr.getNext());
+        curr.setNext(node);
+        return sortedHead;
+    }
+
+
+    private void insertionSort(Comparator<Influencer> comparator)
+    {
+        Node<Influencer> sorted = null;
+        Node<Influencer> curr = firstNode;
+        while (curr != null)
+        {
+            Node<Influencer> next = curr.getNext();
+            curr.setNext(null);
+            sorted = sortedInsert(curr, sorted, comparator);
+            curr = next;
+        }
+        firstNode = sorted;
+    }
+
+
+    // ----------------------------------------------------------
+    /**
+     * Returns the size of the list
+     * 
+     * @return size of list
+     */
+    public int getSize()
+    {
+        return this.size;
     }
 
 }

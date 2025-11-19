@@ -20,8 +20,6 @@ public class InfluencerReachRateComparator implements Comparator<Influencer>{
         if (Double.isNaN(rate2)) {
             rate2 = NA_SORT_VALUE;
         }
-
-        
         return Double.compare(rate2, rate1);
     }
 }
