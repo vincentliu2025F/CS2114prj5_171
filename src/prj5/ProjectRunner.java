@@ -1,6 +1,7 @@
 package prj5;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 
 public class ProjectRunner
 {
@@ -37,12 +38,53 @@ public class ProjectRunner
 
         if (showConsole)
         {
-            // TODO
+            InfluencerList list = filer.getInfluencerList();
+            list.sortByChannelName();
+
+            DecimalFormat formatter = new DecimalFormat("#.#");
+
+            for (int i = 0; i < list.getSize(); i++)
+            {
+                Influencer inf = list.getEntry(i);
+                double tradRate = inf.calculateTraditionalRateQ1();
+                System.out.println(inf.getChannelName());
+                if (Double.isNaN(tradRate))
+                {
+                    System.out.println("traditional: N/A");
+                }
+                else
+                {
+                    System.out
+                        .println("traditional: " + formatter.format(tradRate));
+                }
+                System.out.println("==========");
+            }
+            System.out.println("**********");
+            System.out.println("**********");
+
+            list.sortByReachRate();
+
+            for (int i = 0; i < list.getSize(); i++)
+            {
+                Influencer inf = list.getEntry(i);
+
+                double reach = inf.calculateReachRateQ1();
+                System.out.println(inf.getChannelName());
+                if (Double.isNaN(reach))
+                {
+                    System.out.println("reach: N/A");
+                }
+                else
+                {
+                    System.out.println("reach: " + formatter.format(reach));
+                }
+                System.out.println("==========");
+            }
         }
 
         if (showGUI)
         {
-            // not needed
+            // not needed now
         }
     }
 

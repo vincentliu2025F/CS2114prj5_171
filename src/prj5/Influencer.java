@@ -327,7 +327,7 @@ public class Influencer
             return Double.NaN;
         }
 
-        return (totalLikes + totalComments) / totalViews;
+        return (totalLikes + totalComments) / totalViews * 100;
     }
 
 
@@ -390,7 +390,7 @@ public class Influencer
             return Double.NaN;
         }
 
-        return (totalLikes + totalComments) / marchFollowers;
+        return (totalLikes + totalComments) / marchFollowers * 100;
     }
 
 
