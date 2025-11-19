@@ -363,4 +363,28 @@ public class Influencer
         monthlyStats[monthIndex].views = views;
 
     }
+    
+    // ----------------------------------------------------------
+    /**
+     * Calculates traditional reach for Q1
+     * @return traditional reach for Q1
+     */
+    public double calculateTraditionalRateQ1() {
+
+        double totalLikes = 0;
+        double totalComments = 0;
+
+        for (int i = 0; i < 3; i++) {
+            totalLikes += monthlyStats[i].likes;
+            totalComments += monthlyStats[i].comments;
+        }
+
+        double marchFollowers = monthlyStats[2].followers;
+
+        if (marchFollowers == 0) {
+            return Double.NaN;
+        }
+
+        return (totalLikes + totalComments) / marchFollowers;
+    }
 }

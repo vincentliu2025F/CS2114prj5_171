@@ -2,12 +2,13 @@ package prj5;
 
 // -------------------------------------------------------------------------
 /**
- *  Statistics "struct" used to help organize data in the influencer class.
+ * Statistics "struct" used to help organize data in the influencer class.
  * 
- *  @author ryanjeronimus
- *  @version Nov 19, 2025
+ * @author ryanjeronimus
+ * @version Nov 19, 2025
  */
-public class Statistics {
+public class Statistics
+{
     /**
      * Likes for a month
      */
@@ -32,13 +33,25 @@ public class Statistics {
     // ----------------------------------------------------------
     /**
      * Create a new Statistics object.
-     * @param likes - influencer likes
-     * @param comments - influencer comments
-     * @param views - influencer views
-     * @param posts - influencer posts
-     * @param followers - influencer followers.
+     * 
+     * @param likes
+     *            - influencer likes
+     * @param comments
+     *            - influencer comments
+     * @param views
+     *            - influencer views
+     * @param posts
+     *            - influencer posts
+     * @param followers
+     *            - influencer followers.
      */
-    public Statistics(int likes, int comments, int views, int posts, int followers) {
+    public Statistics(
+        int likes,
+        int comments,
+        int views,
+        int posts,
+        int followers)
+    {
         this.likes = likes;
         this.comments = comments;
         this.views = views;
@@ -46,7 +59,13 @@ public class Statistics {
         this.followers = followers;
     }
 
-    public Statistics() {
-        // empty stats (defaults to 0)
+
+    // ----------------------------------------------------------
+    /**
+     * Create a new Statistics object.
+     */
+    public Statistics()
+    {
+        this(0, 0, 0, 0, 0);
     }
 }

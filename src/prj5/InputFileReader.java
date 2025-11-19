@@ -27,7 +27,7 @@ public class InputFileReader
 
         while (inStream.hasNextLine())
         {
-            String line = inStream.nextLine();
+            String line = inStream.nextLine().replaceAll(" ", "");
             String[] values = line.split(",", -1);
 
             if (values.length < 10)
