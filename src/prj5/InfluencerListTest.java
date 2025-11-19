@@ -39,6 +39,14 @@ public class InfluencerListTest
             new Influencer("unique", "unique", "unique", "unique");
         testList.add(1, unique);
         assertEquals(unique, testList.getEntry(1));
+        testList.add(0, testInfluencer);
+        assertEquals(4, testList.getSize());
+        assertEquals(testInfluencer, testList.getEntry(0));
+        
+        testList.add(2, testInfluencer);
+        assertEquals(5, testList.getSize());
+        assertEquals(testInfluencer, testList.getEntry(2));
+        
 
         Exception e = null;
 
@@ -100,8 +108,11 @@ public class InfluencerListTest
         }
         assertNotNull(e);
 
-        Influencer removed = testList.remove(2);
+        Influencer removed = testList.remove(0);
         assertEquals(unique, removed);
+        testList.add(unique);
+        assertEquals(testInfluencer, testList.remove(2));
+        assertEquals(testInfluencer, testList.remove(1));
     }
 
 
@@ -153,9 +164,12 @@ public class InfluencerListTest
         }
         assertNotNull(e);
 
-        Influencer removed = testList.replace(2, uniqueUnused);
+        Influencer removed = testList.replace(0, uniqueUnused);
         assertEquals(unique, removed);
-        assertEquals(uniqueUnused, testList.getEntry(2));
+        assertEquals(uniqueUnused, testList.getEntry(0));
+        testList.add(removed);
+        removed = testList.replace(1, uniqueUnused);
+        assertEquals(uniqueUnused, removed);
     }
 
 
@@ -169,8 +183,8 @@ public class InfluencerListTest
             new Influencer("unique", "unique", "unique", "unique");
         testList.add(unique);
 
-        assertEquals(unique, testList.getEntry(2));
-        assertEquals(test, testList.getEntry(1));
+        assertEquals(unique, testList.getEntry(0));
+        assertEquals(testInfluencer, testList.getEntry(1));
 
         Exception e = null;
         try
@@ -230,6 +244,121 @@ public class InfluencerListTest
         assertEquals(2, testList.getSize());
         testList.clear();
         assertEquals(0, testList.getSize());
+    }
+
+
+    public void testSortByChannelName()
+    {
+        InfluencerList list = new InfluencerList();
+
+        Influencer a = new Influencer("u1", "zChannel", "USA", "art");
+        Influencer b = new Influencer("u2", "MIdChannel", "USA", "tech");
+        Influencer c = new Influencer("u3", "alpha", "USA", "music");
+
+        list.add(a);
+        list.add(b);
+        list.add(c);
+
+        list.sortByChannelName();
+
+        assertEquals("alpha", list.getEntry(0).getChannelName());
+        assertEquals("MIdChannel", list.getEntry(1).getChannelName());
+        assertEquals("zChannel", list.getEntry(2).getChannelName());
+    }
+
+
+    public void testSortByReachRate()
+    {
+        InfluencerList list = new InfluencerList();
+
+        Influencer high = new Influencer("u1", "High", "USA", "art");
+        Influencer mid = new Influencer("u2", "Mid", "USA", "tech");
+        Influencer nan = new Influencer("u3", "NoViews", "USA", "travel");
+        high.addDataForMonth(0, 100, 1, 1000, 50, 1000);
+        high.addDataForMonth(1, 120, 1, 1000, 60, 1000);
+        high.addDataForMonth(2, 140, 1, 1000, 80, 1000);
+        mid.addDataForMonth(0, 10, 1, 1000, 5, 1000);
+        mid.addDataForMonth(1, 20, 1, 1000, 10, 1000);
+        mid.addDataForMonth(2, 30, 1, 1000, 15, 1000);
+        nan.addDataForMonth(0, 10, 1, 1000, 5, 0);
+        nan.addDataForMonth(1, 10, 1, 1000, 5, 0);
+        nan.addDataForMonth(2, 10, 1, 1000, 5, 0);
+
+        list.add(mid);
+        list.add(nan);
+        list.add(high);
+
+        list.sortByReachRate();
+
+        assertEquals("High", list.getEntry(0).getChannelName());
+        assertEquals("Mid", list.getEntry(1).getChannelName());
+        assertEquals("NoViews", list.getEntry(2).getChannelName());
+
+    }
+
+
+    public void testContains()
+    {
+        String test = "test";
+        Influencer testInfluencer = new Influencer(test, test, test, test);
+        testList.add(testInfluencer);
+        testList.add(testInfluencer);
+        Influencer unique =
+            new Influencer("unique", "unique", "unique", "unique");
+        testList.add(unique);
+        Influencer no = new Influencer("no", "no", "no", "no");
+
+        assertTrue(testList.contains(unique));
+        assertTrue(testList.contains(testInfluencer));
+        assertFalse(testList.contains(no));
+    }
+
+
+    public void testGetLength()
+    {
+        String test = "test";
+        Influencer testInfluencer = new Influencer(test, test, test, test);
+        testList.add(testInfluencer);
+        testList.add(testInfluencer);
+        Influencer unique =
+            new Influencer("unique", "unique", "unique", "unique");
+        testList.add(unique);
+
+        assertEquals(3, testList.getLength());
+        testList.clear();
+        assertEquals(0, testList.getLength());
+    }
+
+
+    public void testIsEmpty()
+    {
+        String test = "test";
+        Influencer testInfluencer = new Influencer(test, test, test, test);
+        testList.add(testInfluencer);
+        testList.add(testInfluencer);
+        Influencer unique =
+            new Influencer("unique", "unique", "unique", "unique");
+        testList.add(unique);
+
+        assertFalse(testList.isEmpty());
+        testList.clear();
+        assertTrue(testList.isEmpty());
+    }
+
+
+    public void testGetFront()
+    {
+        String test = "test";
+        Influencer testInfluencer = new Influencer(test, test, test, test);
+        testList.add(testInfluencer);
+        testList.add(testInfluencer);
+        Influencer unique =
+            new Influencer("unique", "unique", "unique", "unique");
+        testList.add(unique);
+
+        assertEquals(unique, testList.getFront());
+        testList.remove(0);
+        assertEquals(testInfluencer, testList.getFront());
     }
 
 }
