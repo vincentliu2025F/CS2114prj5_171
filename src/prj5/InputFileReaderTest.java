@@ -1,10 +1,343 @@
 package prj5;
+
+import student.TestCase;
+import java.io.IOException;
+import java.io.FileWriter;
+import java.io.BufferedWriter;
+
+/**
+ * Test class for InputFileReader.
+ */
 public class InputFileReaderTest
+    extends TestCase 
 {
-    //~ Fields ................................................................
 
-    //~ Constructors ..........................................................
+    private InputFileReader reader;
+    private LinkedListed<Influencer> influencerList;
+    private static final String TEST_FILE_BASIC =
+        "TestInputFileReader_Basic.csv";
+    private static final String TEST_FILE_INVALID_MONTH =
+        "TestInputFileReader_InvalidMonth.csv";
+    private static final String TEST_FILE_NON_NUMERIC =
+        "TestInputFileReader_NonNumeric.csv";
 
-    //~Public  Methods ........................................................
+    /**
+     * Sets up test fixtures before each test method.
+     */
+    public void setUp()
+    {
+        // Use a sample input file that you have in your project root
+        // Make sure the file exists and matches the expected format
+        try
+        {
+            reader = new InputFileReader("SampleInput1_2023.csv"); // Or another
+                                                                   // known good
+                                                                   // file
+            influencerList = reader.getInfluencerList();
+        }
+        catch (IOException e)
+        {
+            System.out.println(
+                "Error setting up InputFileReader in test: " + e.getMessage());
+            // You might want the test to fail if setup fails
+            fail(
+                "Failed to initialize InputFileReader for testing: "
+                    + e.getMessage());
+        }
+    }
 
+
+    /**
+     * Tears down test fixtures after each test method.
+     */
+    public void tearDown()
+    {
+        // Clean up test files if they were created
+        java.io.File file1 = new java.io.File(TEST_FILE_BASIC);
+        java.io.File file2 = new java.io.File(TEST_FILE_INVALID_MONTH);
+        java.io.File file3 = new java.io.File(TEST_FILE_NON_NUMERIC);
+        file1.delete();
+        file2.delete();
+        file3.delete();
+    }
+
+
+    /**
+     * Tests the constructor and basic parsing. Checks if influencers are loaded
+     * and stored correctly.
+     */
+    public void testConstructorAndParsing()
+    {
+        assertNotNull("InputFileReader should create a list", influencerList);
+        assertFalse(
+            "List should not be empty after reading a valid file",
+            influencerList.isEmpty());
+
+        // Example: Check if specific influencers from the sample file are
+        // present
+        // You need to know the expected channel names in your sample file.
+        // This is a basic check, you might need more specific logic depending
+        // on your sample data.
+        // Assume SampleInput1_2023.csv has these channels after processing Jan,
+        // Feb, Mar data.
+        // Adjust based on your actual sample data.
+        assertEquals(
+            "Expected 4 influencers in SampleInput1_2023.csv",
+            4,
+            influencerList.getSize());
+
+        // Find specific influencers by channel name (assuming helper method or
+        // iterating)
+        Influencer foundInfluencer = null;
+        for (int i = 0; i < influencerList.getSize(); i++)
+        {
+            Influencer current = influencerList.get(i); // Assuming get(index)
+                                                        // exists
+            if ("allaboutfootball".equals(current.getChannelName()))
+            {
+                foundInfluencer = current;
+                break;
+            }
+        }
+        assertNotNull(
+            "Should find influencer 'allaboutfootball'",
+            foundInfluencer);
+        assertEquals(
+            "Username for 'allaboutfootball' should be 'aafootball'",
+            "aafootball",
+            foundInfluencer.getUsername());
+
+        // Find another influencer
+        foundInfluencer = null;
+        for (int i = 0; i < influencerList.getSize(); i++)
+        {
+            Influencer current = influencerList.get(i);
+            if ("artiseverywhere".equals(current.getChannelName()))
+            {
+                foundInfluencer = current;
+                break;
+            }
+        }
+        assertNotNull(
+            "Should find influencer 'artiseverywhere'",
+            foundInfluencer);
+        assertEquals(
+            "Country for 'artiseverywhere' should be 'US'",
+            "US",
+            foundInfluencer.getCountry());
+    }
+
+
+    /**
+     * Tests that invalid months are skipped during parsing. Creates a temporary
+     * file with an invalid month entry.
+     */
+    public void testInvalidMonthSkipping()
+    {
+        // Create a temporary file with valid and invalid months
+        try (
+            BufferedWriter writer =
+                new BufferedWriter(new FileWriter(TEST_FILE_INVALID_MONTH)))
+        {
+            writer.write(
+                "month,username,channel name,country,main topic,likes,posts,followers,comments,views\n");
+            writer.write(
+                "January,valid_user,valid_channel,US,Test,100,5,1000,20,5000\n");
+            writer.write(
+                "Noctober,invalid_user,valid_channel,US,Test,999,99,9999,99,9999\n"); // Invalid
+                                                                                      // month
+            writer.write(
+                "February,valid_user,valid_channel,US,Test,150,6,1050,25,5500\n");
+            writer.write(
+                "March,valid_user,valid_channel,US,Test,200,7,1100,30,6000\n");
+            // Add another influencer with only valid months
+            writer.write(
+                "January,other_user,other_channel,CA,Other,50,3,800,10,4000\n");
+            writer.write(
+                "February,other_user,other_channel,CA,Other,75,4,850,15,4500\n");
+            writer.write(
+                "March,other_user,other_channel,CA,Other,100,5,900,20,5000\n");
+        }
+        catch (IOException e)
+        {
+            fail(
+                "Failed to create temporary test file for invalid month test: "
+                    + e.getMessage());
+        }
+
+        try
+        {
+            InputFileReader readerInvalid =
+                new InputFileReader(TEST_FILE_INVALID_MONTH);
+            LinkedListed<Influencer> listInvalid =
+                readerInvalid.getInfluencerList();
+
+            assertEquals(
+                "List should contain 2 influencers after processing invalid month file",
+                2,
+                listInvalid.getSize());
+
+            Influencer validChannelInfluencer = null;
+            for (int i = 0; i < listInvalid.getSize(); i++)
+            {
+                Influencer current = listInvalid.get(i);
+                if ("valid_channel".equals(current.getChannelName()))
+                {
+                    validChannelInfluencer = current;
+                    break;
+                }
+            }
+
+            assertNotNull(
+                "Should find influencer 'valid_channel'",
+                validChannelInfluencer);
+            // The influencer should have data for Jan, Feb, Mar (indices 0, 1,
+            // 2) and N/A for others (0)
+            // Check January data (index 0)
+            assertEquals(
+                "Likes for valid_channel in January should be 100",
+                100,
+                validChannelInfluencer.getLikes(0));
+            assertEquals(
+                "Followers for valid_channel in January should be 1000",
+                1000,
+                validChannelInfluencer.getFollowers(0));
+            // Check February data (index 1)
+            assertEquals(
+                "Likes for valid_channel in February should be 150",
+                150,
+                validChannelInfluencer.getLikes(1));
+            // Check March data (index 2)
+            assertEquals(
+                "Likes for valid_channel in March should be 200",
+                200,
+                validChannelInfluencer.getLikes(2));
+
+            // The row with "Noctober" should not contribute data for the first
+            // quarter.
+            // Its data (999, 99, 9999, 99, 9999) should not appear in
+            // Jan/Feb/Mar arrays.
+            // The traditional rate calculation should only use Jan/Feb/Mar
+            // data.
+            // Traditional Rate = ((Jan Comments + Feb Comments + Mar Comments)
+            // + (Jan Likes + Feb Likes + Mar Likes)) / Mar Followers * 100
+            // Rate = ((20 + 25 + 30) + (100 + 150 + 200)) / 1100 * 100 = (75 +
+            // 450) / 1100 * 100 = 525 / 1100 * 100 = 47.727...
+            double expectedRate =
+                (double)(20 + 25 + 30 + 100 + 150 + 200) / 1100 * 100;
+            assertEquals(
+                "Traditional rate for valid_channel should ignore Noctober data",
+                expectedRate,
+                validChannelInfluencer.calculateTraditionalRateQ1(),
+                0.01); // Delta for floating point comparison
+
+        }
+        catch (IOException e)
+        {
+            System.out.println(
+                "Error reading temporary test file for invalid month test: "
+                    + e.getMessage());
+            fail(
+                "Failed to read temporary test file for invalid month test: "
+                    + e.getMessage());
+        }
+    }
+
+
+    /**
+     * Tests the toInt helper method indirectly through parsing. Creates a
+     * temporary file with non-numeric data in numeric fields.
+     */
+    public void testToIntHelper()
+    {
+        // Create a temporary file with non-numeric data in a numeric field
+        // (e.g., likes)
+        try (
+            BufferedWriter writer =
+                new BufferedWriter(new FileWriter(TEST_FILE_NON_NUMERIC)))
+        {
+            writer.write(
+                "month,username,channel name,country,main topic,likes,posts,followers,comments,views\n");
+            writer.write(
+                "January,valid_user,valid_channel,US,Test,abc,5,1000,20,5000\n"); // Non-numeric
+                                                                                  // likes
+            writer.write(
+                "February,valid_user,valid_channel,US,Test,150,6,1050,25,5500\n");
+            writer.write(
+                "March,valid_user,valid_channel,US,Test,200,7,1100,30,6000\n");
+        }
+        catch (IOException e)
+        {
+            fail(
+                "Failed to create temporary test file for non-numeric test: "
+                    + e.getMessage());
+        }
+
+        try
+        {
+            InputFileReader readerNonNumeric =
+                new InputFileReader(TEST_FILE_NON_NUMERIC);
+            LinkedListed<Influencer> listNonNumeric =
+                readerNonNumeric.getInfluencerList();
+
+            assertEquals(
+                "List should contain 1 influencer after processing non-numeric file",
+                1,
+                listNonNumeric.getSize());
+
+            Influencer validChannelInfluencer = listNonNumeric.get(0); // Should
+                                                                       // be the
+                                                                       // only
+                                                                       // one
+
+            assertNotNull(
+                "Should find influencer 'valid_channel'",
+                validChannelInfluencer);
+            // The non-numeric value "abc" for likes in January should be
+            // converted to 0
+            assertEquals(
+                "Likes for valid_channel in January should be 0 after toInt conversion",
+                0,
+                validChannelInfluencer.getLikes(0)); // January index is 0
+            assertEquals(
+                "Followers for valid_channel in January should be 1000",
+                1000,
+                validChannelInfluencer.getFollowers(0));
+            // Check February data (index 1)
+            assertEquals(
+                "Likes for valid_channel in February should be 150",
+                150,
+                validChannelInfluencer.getLikes(1));
+            // Check March data (index 2)
+            assertEquals(
+                "Likes for valid_channel in March should be 200",
+                200,
+                validChannelInfluencer.getLikes(2));
+
+            // The traditional rate calculation should now use 0 for January
+            // likes.
+            // Traditional Rate = ((Jan Comments + Feb Comments + Mar Comments)
+            // + (Jan Likes + Feb Likes + Mar Likes)) / Mar Followers * 100
+            // Rate = ((20 + 25 + 30) + (0 + 150 + 200)) / 1100 * 100 = (75 +
+            // 350) / 1100 * 100 = 425 / 1100 * 100 = 38.636...
+            double expectedRate =
+                (double)(20 + 25 + 30 + 0 + 150 + 200) / 1100 * 100;
+            assertEquals(
+                "Traditional rate for valid_channel should handle non-numeric January likes as 0",
+                expectedRate,
+                validChannelInfluencer.calculateTraditionalRateQ1(),
+                0.01); // Delta for floating point comparison
+
+        }
+        catch (IOException e)
+        {
+            System.out.println(
+                "Error reading temporary test file for non-numeric test: "
+                    + e.getMessage());
+            fail(
+                "Failed to read temporary test file for non-numeric test: "
+                    + e.getMessage());
+        }
+    }
 }
+
