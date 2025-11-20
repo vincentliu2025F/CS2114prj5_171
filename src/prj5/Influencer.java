@@ -397,22 +397,22 @@ public class Influencer
     /**
      * Determines if this object is equal to passed object
      * 
-     * @param obj-
+     * @param influencer-
      *            object to be compared
      * @return whether or not the two objects are equal
      */
-    public boolean equals(Object obj)
+    public boolean equals(Object influencer)
     {
-        if (this == obj)
+        if (this == influencer)
         {
             return true;
         }
-        if (obj == null || obj.getClass() != this.getClass())
+        if (influencer == null || influencer.getClass() != this.getClass())
         {
             return false;
         }
 
-        Influencer other = (Influencer)obj;
+        Influencer other = (Influencer)influencer;
 
         if (!this.channelName.equals(other.channelName)
             || !this.username.equals(other.username)
@@ -424,11 +424,12 @@ public class Influencer
 
         for (int i = 0; i < 12; i++)
         {
-            if (this.monthlyStats[i].likes != other.monthlyStats[i].likes
-                || this.monthlyStats[i].comments != other.monthlyStats[i].comments
-                || this.monthlyStats[i].views != other.monthlyStats[i].views
-                || this.monthlyStats[i].posts != other.monthlyStats[i].posts
-                || this.monthlyStats[i].followers != other.monthlyStats[i].followers)
+            Statistics a = this.monthlyStats[i];
+            Statistics b = other.monthlyStats[i];
+
+            if (a.likes != b.likes || a.comments != b.comments
+                || a.views != b.views || a.posts != b.posts
+                || a.followers != b.followers)
             {
                 return false;
             }
