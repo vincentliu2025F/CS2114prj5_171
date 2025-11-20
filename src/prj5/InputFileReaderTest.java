@@ -5,8 +5,12 @@ import java.io.IOException;
 import java.io.FileWriter;
 import java.io.BufferedWriter;
 
+// -------------------------------------------------------------------------
 /**
- * Test class for InputFileReader.
+ * Test class for the input file reader (JUNIT)
+ * 
+ * @author vincentliu
+ * @version Nov 19, 2025
  */
 public class InputFileReaderTest
     extends TestCase

@@ -18,7 +18,6 @@ public class InputFileReader
     private static final int JANUARY_INDEX = 0;
     private static final int FEBRUARY_INDEX = 1;
     private static final int MARCH_INDEX = 2;
-    // ... other month indices ...
     private static final int NUM_MONTHS = 12;
 
     /**
