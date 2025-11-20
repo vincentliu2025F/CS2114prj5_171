@@ -115,7 +115,7 @@ public class Influencer
      */
     public int getLikes(int month)
     {
-        return monthlyStats[month].likes;
+        return monthlyStats[month].getLikes();
     }
 
 
@@ -129,7 +129,7 @@ public class Influencer
      */
     public int getPosts(int month)
     {
-        return monthlyStats[month].posts;
+        return monthlyStats[month].getPosts();
     }
 
 
@@ -143,7 +143,7 @@ public class Influencer
      */
     public int getFollowers(int month)
     {
-        return monthlyStats[month].followers;
+        return monthlyStats[month].getFollowers();
     }
 
 
@@ -157,7 +157,7 @@ public class Influencer
      */
     public int getComments(int month)
     {
-        return monthlyStats[month].comments;
+        return monthlyStats[month].getComments();
     }
 
 
@@ -171,7 +171,7 @@ public class Influencer
      */
     public int getViews(int month)
     {
-        return monthlyStats[month].views;
+        return monthlyStats[month].getViews();
     }
 
 
@@ -239,7 +239,7 @@ public class Influencer
      */
     public void setLikes(int likes, int month)
     {
-        this.monthlyStats[month].likes = likes;
+        this.monthlyStats[month].setLikes(likes);
     }
 
 
@@ -254,7 +254,8 @@ public class Influencer
      */
     public void setPosts(int posts, int month)
     {
-        this.monthlyStats[month].posts = posts;
+        this.monthlyStats[month].setPosts(posts);
+        ;
     }
 
 
@@ -269,7 +270,7 @@ public class Influencer
      */
     public void setFollowers(int followers, int month)
     {
-        this.monthlyStats[month].followers = followers;
+        this.monthlyStats[month].setFollowers(followers);
     }
 
 
@@ -284,7 +285,7 @@ public class Influencer
      */
     public void setComments(int comments, int month)
     {
-        this.monthlyStats[month].comments = comments;
+        this.monthlyStats[month].setComments(comments);
     }
 
 
@@ -299,7 +300,7 @@ public class Influencer
      */
     public void setViews(int views, int month)
     {
-        this.monthlyStats[month].views = views;
+        this.monthlyStats[month].setViews(views);
     }
 
 
@@ -317,9 +318,9 @@ public class Influencer
 
         for (int i = 0; i < 3; i++)
         {
-            totalLikes += monthlyStats[i].likes;
-            totalComments += monthlyStats[i].comments;
-            totalViews += monthlyStats[i].views;
+            totalLikes += monthlyStats[i].getLikes();
+            totalComments += monthlyStats[i].getComments();
+            totalViews += monthlyStats[i].getViews();
         }
 
         if (totalViews == 0)
@@ -356,11 +357,11 @@ public class Influencer
         int comments,
         int views)
     {
-        monthlyStats[monthIndex].likes = likes;
-        monthlyStats[monthIndex].posts = posts;
-        monthlyStats[monthIndex].followers = followers;
-        monthlyStats[monthIndex].comments = comments;
-        monthlyStats[monthIndex].views = views;
+        monthlyStats[monthIndex].setLikes(likes);
+        monthlyStats[monthIndex].setPosts(posts);
+        monthlyStats[monthIndex].setFollowers(followers);
+        monthlyStats[monthIndex].setComments(comments);
+        monthlyStats[monthIndex].setViews(views);
 
     }
 
@@ -379,11 +380,11 @@ public class Influencer
 
         for (int i = 0; i < 3; i++)
         {
-            totalLikes += monthlyStats[i].likes;
-            totalComments += monthlyStats[i].comments;
+            totalLikes += monthlyStats[i].getLikes();
+            totalComments += monthlyStats[i].getComments();
         }
 
-        double marchFollowers = monthlyStats[2].followers;
+        double marchFollowers = monthlyStats[2].getFollowers();
 
         if (marchFollowers == 0)
         {
@@ -397,9 +398,9 @@ public class Influencer
     /**
      * Determines if this object is equal to passed object
      * 
-     * @param influencer-
-     *            object to be compared
-     * @return whether or not the two objects are equal
+     * @param influencer
+     *            - influencer to be passed
+     * @return boolean value describing equality.
      */
     public boolean equals(Object influencer)
     {
@@ -427,9 +428,10 @@ public class Influencer
             Statistics a = this.monthlyStats[i];
             Statistics b = other.monthlyStats[i];
 
-            if (a.likes != b.likes || a.comments != b.comments
-                || a.views != b.views || a.posts != b.posts
-                || a.followers != b.followers)
+            if (a.getLikes() != b.getLikes()
+                || a.getComments() != b.getComments()
+                || a.getViews() != b.getViews() || a.getPosts() != b.getPosts()
+                || a.getFollowers() != b.getFollowers())
             {
                 return false;
             }

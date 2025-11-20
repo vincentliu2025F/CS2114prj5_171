@@ -7,6 +7,8 @@ package prj5;
  * @author Frank M. Carrano
  * @author Timothy M. Henry
  * @version 4.0
+ * @param <T>
+ *            - listinterface type
  */
 public interface ListInterface<T>
 {

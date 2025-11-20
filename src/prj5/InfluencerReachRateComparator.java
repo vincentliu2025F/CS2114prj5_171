@@ -3,6 +3,13 @@ package prj5;
 
 import java.util.Comparator;
 
+// -------------------------------------------------------------------------
+/**
+ * Comparator for reach rate of influencers
+ * 
+ * @author vincentliu
+ * @version Nov 20, 2025
+ */
 public class InfluencerReachRateComparator
     implements Comparator<Influencer>
 {
