@@ -353,26 +353,21 @@ public class InputFileReaderTest
             writer.write(
                 "month,username,channel,country,main,likes,posts,followers,comments,views\n");
 
-            // Valid row
-            writer.write("January,userA,chanA,US,Test,10,1,100,5,200\n");
-
-            // Malformed row (only 5 fields)
             writer.write("February,userA,chanA,US,Test\n");
 
-            // Another valid row
             writer.write("March,userA,chanA,US,Test,20,2,200,10,300\n");
 
         }
         catch (IOException e)
         {
-            fail("Could not create malformed test file: " + e.getMessage());
+            fail("Could not create test fil");
         }
 
         try
         {
             InputFileReader rdr = new InputFileReader(filename);
             InfluencerList list = rdr.getInfluencerList();
-            assertEquals("Only one channel should exist", 1, list.getSize());
+            assertEquals(1, list.getSize());
             Influencer inf = list.getEntry(0);
             assertEquals(10, inf.getLikes(0));
             assertEquals(20, inf.getLikes(2));
@@ -382,13 +377,14 @@ public class InputFileReaderTest
         }
         catch (IOException e)
         {
-            fail("Failed reading malformed test file: " + e.getMessage());
+            fail("Failed reading malformed test file");
         }
     }
 
 
     /**
-     * tests all valid months in isValidMonthForProcessing() for full coverage
+     * tests all valid months in isValidMonthForProcessing() for full coverage.
+     * Makes new file for testing
      */
     public void testAllValidMonths()
     {
@@ -414,7 +410,7 @@ public class InputFileReaderTest
         }
         catch (IOException e)
         {
-            fail("Cannot write all-months file: " + e.getMessage());
+            fail("Cannot write all-months file");
         }
 
         try
@@ -427,22 +423,20 @@ public class InputFileReaderTest
 
             for (int i = 0; i < 12; i++)
             {
-                assertEquals(
-                    "Month index " + i + " should have likes = " + i,
-                    i,
-                    inf.getLikes(i));
+                assertEquals(i, inf.getLikes(i));
             }
 
         }
         catch (IOException e)
         {
-            fail("Could not read all-months test file: " + e.getMessage());
+            fail("Could not read all months test file");
         }
     }
 
 
     /**
-     * testing all month index cases for full code coverage
+     * testing all month index cases for full code coverage. Makes new file for
+     * testing
      */
     public void testAllMonthIndexCases()
     {
@@ -497,14 +491,13 @@ public class InputFileReaderTest
         }
         catch (IOException e)
         {
-            fail("Could not read month-index file: " + e.getMessage());
+            fail("Could not read month-index file");
         }
     }
 
 
     /**
-     * Directly ensures that monthIndex == -1 branch is hit by producing a row
-     * with an invalid month that still passes the length check.
+     * Directly ensures that monthIndex == -1 branch is hit
      */
     public void testMonthIndexEqualsNegativeOne()
     {
@@ -523,8 +516,7 @@ public class InputFileReaderTest
         }
         catch (IOException e)
         {
-            fail(
-                "Could not create negative-monthIndex test: " + e.getMessage());
+            fail("Could not create negative test");
         }
 
         try
@@ -544,7 +536,7 @@ public class InputFileReaderTest
         }
         catch (IOException e)
         {
-            fail("Could not read negative-monthIndex test: " + e.getMessage());
+            fail("Could not read negative-month");
         }
     }
 
