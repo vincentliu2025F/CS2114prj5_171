@@ -337,4 +337,215 @@ public class InputFileReaderTest
                     + e.getMessage());
         }
     }
+
+
+    /**
+     * Ensures that malformed rows (fewer than 10 fields) are skipped.
+     */
+    public void testMalformedLineSkipping()
+    {
+        String filename = "TestMalformed.csv";
+
+        try (
+            BufferedWriter writer =
+                new BufferedWriter(new FileWriter(filename)))
+        {
+            writer.write(
+                "month,username,channel,country,main,likes,posts,followers,comments,views\n");
+
+            // Valid row
+            writer.write("January,userA,chanA,US,Test,10,1,100,5,200\n");
+
+            // Malformed row (only 5 fields)
+            writer.write("February,userA,chanA,US,Test\n");
+
+            // Another valid row
+            writer.write("March,userA,chanA,US,Test,20,2,200,10,300\n");
+
+        }
+        catch (IOException e)
+        {
+            fail("Could not create malformed test file: " + e.getMessage());
+        }
+
+        try
+        {
+            InputFileReader rdr = new InputFileReader(filename);
+            InfluencerList list = rdr.getInfluencerList();
+            assertEquals("Only one channel should exist", 1, list.getSize());
+            Influencer inf = list.getEntry(0);
+            assertEquals(10, inf.getLikes(0));
+            assertEquals(20, inf.getLikes(2));
+
+            assertEquals(0, inf.getLikes(1));
+
+        }
+        catch (IOException e)
+        {
+            fail("Failed reading malformed test file: " + e.getMessage());
+        }
+    }
+
+
+    /**
+     * tests all valid months in isValidMonthForProcessing() for full coverage
+     */
+    public void testAllValidMonths()
+    {
+        String filename = "TestAllMonths.csv";
+
+        try (
+            BufferedWriter writer =
+                new BufferedWriter(new FileWriter(filename)))
+        {
+            writer.write(
+                "month,username,channel,country,main,likes,posts,followers,comments,views\n");
+
+            String[] months = { "January", "February", "March", "April", "May",
+                "June", "July", "August", "September", "October", "November",
+                "December" };
+
+            for (int i = 0; i < months.length; i++)
+            {
+                writer
+                    .write(months[i] + ",u,chanM,US,T," + i + ",1,10,1,100\n");
+            }
+
+        }
+        catch (IOException e)
+        {
+            fail("Cannot write all-months file: " + e.getMessage());
+        }
+
+        try
+        {
+            InputFileReader rdr = new InputFileReader(filename);
+            InfluencerList list = rdr.getInfluencerList();
+
+            assertEquals(1, list.getSize());
+            Influencer inf = list.getEntry(0);
+
+            for (int i = 0; i < 12; i++)
+            {
+                assertEquals(
+                    "Month index " + i + " should have likes = " + i,
+                    i,
+                    inf.getLikes(i));
+            }
+
+        }
+        catch (IOException e)
+        {
+            fail("Could not read all-months test file: " + e.getMessage());
+        }
+    }
+
+
+    /**
+     * testing all month index cases for full code coverage
+     */
+    public void testAllMonthIndexCases()
+    {
+        String filename = "TestMonthIndex.csv";
+
+        try (
+            BufferedWriter writer =
+                new BufferedWriter(new FileWriter(filename)))
+        {
+            writer.write(
+                "month,username,channel,country,main,likes,posts,followers,comments,views\n");
+            writer.write("April,u,ch,US,T,1,1,10,1,10\n");
+            writer.write("May,u,ch,US,T,2,1,10,1,10\n");
+            writer.write("June,u,ch,US,T,3,1,10,1,10\n");
+            writer.write("July,u,ch,US,T,4,1,10,1,10\n");
+            writer.write("August,u,ch,US,T,5,1,10,1,10\n");
+            writer.write("September,u,ch,US,T,6,1,10,1,10\n");
+            writer.write("October,u,ch,US,T,7,1,10,1,10\n");
+            writer.write("November,u,ch,US,T,8,1,10,1,10\n");
+            writer.write("December,u,ch,US,T,9,1,10,1,10\n");
+
+            writer.write("Blarch,u,ch,US,T,99,1,10,1,10\n");
+
+        }
+        catch (IOException e)
+        {
+            fail("Could not create month-index test file: " + e.getMessage());
+        }
+
+        try
+        {
+            InputFileReader rdr = new InputFileReader(filename);
+            InfluencerList list = rdr.getInfluencerList();
+
+            assertEquals(1, list.getSize());
+            Influencer inf = list.getEntry(0);
+
+            assertEquals(1, inf.getLikes(3));   // April
+            assertEquals(2, inf.getLikes(4));   // May
+            assertEquals(3, inf.getLikes(5));   // June
+            assertEquals(4, inf.getLikes(6));   // July
+            assertEquals(5, inf.getLikes(7));   // August
+            assertEquals(6, inf.getLikes(8));   // September
+            assertEquals(7, inf.getLikes(9));   // October
+            assertEquals(8, inf.getLikes(10));  // November
+            assertEquals(9, inf.getLikes(11));  // December
+            for (int i = 0; i < 12; i++)
+            {
+                assertFalse(99 == inf.getLikes(i));
+            }
+
+        }
+        catch (IOException e)
+        {
+            fail("Could not read month-index file: " + e.getMessage());
+        }
+    }
+
+
+    /**
+     * Directly ensures that monthIndex == -1 branch is hit by producing a row
+     * with an invalid month that still passes the length check.
+     */
+    public void testMonthIndexEqualsNegativeOne()
+    {
+        String filename = "TestMonthIndexNegative.csv";
+
+        try (
+            BufferedWriter writer =
+                new BufferedWriter(new FileWriter(filename)))
+        {
+            writer.write(
+                "month,username,channel,country,main,likes,posts,followers,comments,views\n");
+            writer.write("January,u,ch,US,T,5,1,10,1,10\n");
+
+            writer.write("Smarch,u,ch,US,T,999,1,10,1,10\n");
+
+        }
+        catch (IOException e)
+        {
+            fail(
+                "Could not create negative-monthIndex test: " + e.getMessage());
+        }
+
+        try
+        {
+            InputFileReader rdr = new InputFileReader(filename);
+            InfluencerList list = rdr.getInfluencerList();
+
+            assertEquals(1, list.getSize());
+            Influencer inf = list.getEntry(0);
+
+            assertEquals(5, inf.getLikes(0));
+            for (int i = 1; i < 12; i++)
+            {
+                assertEquals(0, inf.getLikes(i));
+            }
+
+        }
+        catch (IOException e)
+        {
+            fail("Could not read negative-monthIndex test: " + e.getMessage());
+        }
+    }
+
 }

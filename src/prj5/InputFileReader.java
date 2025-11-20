@@ -14,7 +14,7 @@ public class InputFileReader
 
     private InfluencerList influencerList;
 
-    // Array indices for months
+    // Array indices for monthswewewee
     private static final int JANUARY_INDEX = 0;
     private static final int FEBRUARY_INDEX = 1;
     private static final int MARCH_INDEX = 2;
