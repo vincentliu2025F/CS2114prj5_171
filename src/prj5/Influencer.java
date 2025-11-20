@@ -255,7 +255,6 @@ public class Influencer
     public void setPosts(int posts, int month)
     {
         this.monthlyStats[month].setPosts(posts);
-        ;
     }
 
 
