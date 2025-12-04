@@ -39,9 +39,7 @@ public class GUIInfluencerVisualization
     // Constants
     private static final int BAR_WIDTH = 60;
     private static final int BAR_GAP = 60;
-    private static final int LABEL_OFFSET = 25;
     private static final double DISPLAY_FACTOR = 1.5;
-
     private static final int JANUARY = 0;
     private static final int FEBUARY = 1;
     private static final int MARCH = 2;
@@ -284,10 +282,7 @@ public class GUIInfluencerVisualization
                 {
                     return inf.calculateTraditionalRateQ1();
                 }
-                else
-                {
-                    return inf.calculateReachRateQ1();
-                }
+                return inf.calculateReachRateQ1();
         }
     }
 
@@ -304,14 +299,9 @@ public class GUIInfluencerVisualization
                 ? Double.NaN
                 : (likes + comments) * 100.0 / followers;
         }
-        else
-        { // Reach
-            int views = inf.getViews(month);
-            return views == 0 ? Double.NaN : (likes + comments) * 100.0 / views;
-        }
+        int views = inf.getViews(month);
+        return views == 0 ? Double.NaN : (likes + comments) * 100.0 / views;
     }
-
-    // todo NAN is hgiher
 
 
     private void endVisualization()
