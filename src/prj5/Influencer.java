@@ -376,21 +376,21 @@ public class Influencer
 
         double totalLikes = 0;
         double totalComments = 0;
+        double totalFollowers = 0;
 
         for (int i = 0; i < 3; i++)
         {
             totalLikes += monthlyStats[i].getLikes();
             totalComments += monthlyStats[i].getComments();
+            totalFollowers += monthlyStats[i].getFollowers();
         }
 
-        double marchFollowers = monthlyStats[2].getFollowers();
-
-        if (marchFollowers == 0)
+        if (totalFollowers == 0)
         {
             return Double.NaN;
         }
 
-        return (totalLikes + totalComments) / marchFollowers * 100;
+        return (totalLikes + totalComments) / totalFollowers * 100;
     }
 
 
