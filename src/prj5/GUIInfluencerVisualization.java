@@ -68,7 +68,7 @@ public class GUIInfluencerVisualization
     {
         // Time Period
         janBtn = new Button("January");
-        febBtn = new Button("February");
+        febBtn = new Button("Febuary");
         marBtn = new Button("March");
 
         q1Btn = new Button("First Quarter");
