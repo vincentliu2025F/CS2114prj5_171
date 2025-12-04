@@ -381,6 +381,31 @@ public class InfluencerList
 
     // ----------------------------------------------------------
     /**
+     * Sorts by reach rate for a specified month (january = 0)
+     * 
+     * @param month
+     *            - month of interest
+     */
+    public void sortByReachRateForMonth(int month)
+    {
+        insertionSort(new InfluencerReachRateMonthComparator(month));
+    }
+
+
+    /**
+     * * Sorts by traditional rate for a specified month (january = 0)
+     * 
+     * @param month
+     *            - month of interest
+     */
+    public void sortByTraditionalRateForMonth(int month)
+    {
+        insertionSort(new InfluencerTraditionalRateMonthComparator(month));
+    }
+
+
+    // ----------------------------------------------------------
+    /**
      * Returns the size of the list
      * 
      * @return size of list

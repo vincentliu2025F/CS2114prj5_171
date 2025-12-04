@@ -42,6 +42,10 @@ public class GUIInfluencerVisualization
     private static final int LABEL_OFFSET = 25;
     private static final double DISPLAY_FACTOR = 1.5;
 
+    private static final int JANUARY = 0;
+    private static final int FEBUARY = 1;
+    private static final int MARCH = 2;
+
     /**
      * Constructs the GUI window and initializes components.
      *
@@ -150,17 +154,45 @@ public class GUIInfluencerVisualization
         {
             if ("Traditional".equals(formula))
             {
-                working.sortByTraditionalRate();
+                switch (timePeriod)
+                {
+                    case "January":
+                        working.sortByTraditionalRateForMonth(JANUARY);
+                        break;
+                    case "February":
+                        working.sortByTraditionalRateForMonth(FEBUARY);
+                        break;
+                    case "March":
+                        working.sortByTraditionalRateForMonth(MARCH);
+                        break;
+                    default: // First Quarter
+                        working.sortByTraditionalRate();
+                        break;
+                }
             }
             else
             {
-                working.sortByReachRate(); // Per spec: only Reach Rate used for
-                                           // rate sorting in GUI
+                switch (timePeriod)
+                {
+                    case "January":
+                        working.sortByReachRateForMonth(JANUARY);
+                        break;
+                    case "February":
+                        working.sortByReachRateForMonth(FEBUARY);
+                        break;
+                    case "March":
+                        working.sortByReachRateForMonth(MARCH);
+                        break;
+                    default: // First Quarter
+                        working.sortByReachRate();
+                }
+
             }
+
         }
 
         displayedInfluencers.clear();
-        for (int i = 0; i < working.getLength(); i++)
+        for (int i = working.getLength() - 1; i >= 0; i--)
         {
             displayedInfluencers.add(working.getEntry(i));
         }
