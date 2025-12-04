@@ -311,6 +311,8 @@ public class GUIInfluencerVisualization
         }
     }
 
+    // todo NAN is hgiher
+
 
     private void endVisualization()
     {

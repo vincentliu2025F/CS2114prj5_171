@@ -3,6 +3,7 @@ package prj5;
 import java.io.IOException;
 import java.text.DecimalFormat;
 
+
 public class ProjectRunner
 {
     // ~ Fields ................................................................
@@ -83,7 +84,7 @@ public class ProjectRunner
         }
 
         if (showGUI)
-        {  
+        {
             new GUIInfluencerVisualization(filer.getInfluencerList());
         }
     }
