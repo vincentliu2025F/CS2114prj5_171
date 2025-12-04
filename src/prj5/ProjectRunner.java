@@ -83,8 +83,8 @@ public class ProjectRunner
         }
 
         if (showGUI)
-        {
-            // not needed now
+        {  
+            new GUIInfluencerVisualization(filer.getInfluencerList());
         }
     }
 
