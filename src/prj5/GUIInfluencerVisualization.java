@@ -11,7 +11,9 @@ import java.util.List;
  * Uses CS2GraphWindowLib (Window, Button, Shape, TextShape, etc.).
  * Supports time period, formula, and sort selection with persistent state.
  */
-public class GUIInfluencerVisualization extends Window implements ClickAction {
+public class GUIInfluencerVisualization {
+    
+    private Window window;
     private InfluencerList originalList;
     private List<Influencer> displayedInfluencers = new ArrayList<>();
 
@@ -34,6 +36,7 @@ public class GUIInfluencerVisualization extends Window implements ClickAction {
     private static final int BAR_WIDTH = 60;
     private static final int BAR_GAP = 30;
     private static final int LABEL_OFFSET = 25;
+    private static final double DISPLAY_FACTOR = 1.5;
 
     /**
      * Constructs the GUI window and initializes components.
@@ -41,49 +44,66 @@ public class GUIInfluencerVisualization extends Window implements ClickAction {
      * @param list The influencer list to visualize.
      */
     public GUIInfluencerVisualization(InfluencerList list) {
-        super(850, 600, "Social Media Influencer Analytics — Group: vliu1234 abc1234 xyz5678");
         this.originalList = list;
+        window = new Window("Influencer Data Visualizer");
+        window.setSize((int)(500 * DISPLAY_FACTOR), (int)(500 * DISPLAY_FACTOR));
+        
+        
 
         setupButtons();
         updateDisplay();
-        setVisible(true);
     }
 
     private void setupButtons() {
         // Time Period
-        janBtn = new Button("January", this);
-        febBtn = new Button("February", this);
-        marBtn = new Button("March", this);
-        q1Btn = new Button("First Quarter", this);
+        janBtn = new Button("January");       
+        febBtn = new Button("February");
+        marBtn = new Button("March");
+        
+
+        q1Btn = new Button("First Quarter");
+        window.addButton(janBtn, WindowSide.SOUTH);
+        window.addButton(febBtn, WindowSide.SOUTH);
+        window.addButton(marBtn, WindowSide.SOUTH);
+        window.addButton(q1Btn, WindowSide.SOUTH);
+        
+        
+        janBtn.onClick(this, "clickAccept");
+        febBtn.onClick(this, "clickAccept");
+        marBtn.onClick(this, "clickAccept");
+        q1Btn.onClick(this, "clickAccept");
+        
+        
+        
 
         // Formula
-        tradBtn = new Button("Traditional", this);
-        reachBtn = new Button("Reach", this);
+        tradBtn = new Button("Traditional");
+        reachBtn = new Button("Reach");
+        
+        window.addButton(tradBtn, WindowSide.WEST);
+        window.addButton(reachBtn, WindowSide.WEST);
+        
+        tradBtn.onClick(this, "clickAccept");
+        reachBtn.onClick(this, "clickAccept");
 
         // Sort
-        nameBtn = new Button("Sort by Name", this);
-        rateBtn = new Button("Sort by Rate", this);
-
+        nameBtn = new Button("Sort by Name");
+        rateBtn = new Button("Sort by Rate");
+       
+        
+        window.addButton(nameBtn, WindowSide.NORTH);
+        window.addButton(rateBtn, WindowSide.NORTH);
+        
+        nameBtn.onClick(this, "clickAccept");
+        rateBtn.onClick(this, "clickAccept");
         // Quit
-        quitBtn = new Button("Quit", this);
-
-        // Add buttons to window (left side by default)
-        addButton(janBtn, WindowSide.TOP);
-        addButton(febBtn, WindowSide.TOP);
-        addButton(marBtn, WindowSide.TOP);
-        addButton(q1Btn, WindowSide.TOP);
-
-        addButton(tradBtn, WindowSide.TOP);
-        addButton(reachBtn, WindowSide.TOP);
-
-        addButton(nameBtn, WindowSide.TOP);
-        addButton(rateBtn, WindowSide.TOP);
-
-        addButton(quitBtn, WindowSide.TOP);
+        quitBtn = new Button("Quit");
+        
+        window.addButton(quitBtn, WindowSide.NORTH);
+        quitBtn.onClick(this, "clickAccept");
     }
 
-    @Override
-    public void clickAccepted(Button button) {
+    public void clickAccept(Button button) {
         if (button == janBtn) timePeriod = "January";
         else if (button == febBtn) timePeriod = "February";
         else if (button == marBtn) timePeriod = "March";
@@ -99,11 +119,22 @@ public class GUIInfluencerVisualization extends Window implements ClickAction {
 
         updateDisplay();
     }
+    
+    private void autoResizeWindow() {
+        int n = displayedInfluencers.size();
 
-    @Override
-    public void clickRejected(Button button) {
-        // Ignore
+        int startX = 50;              
+        int rightMargin = 80;         
+        int widthNeeded = startX + n * (BAR_WIDTH + BAR_GAP) + rightMargin;
+
+        int minWidth = 500;           
+        int finalWidth = Math.max(minWidth, widthNeeded);
+
+        int currentHeight = window.getHeight();
+
+        window.setSize(finalWidth, currentHeight);
     }
+
 
     private void updateDisplay() {
         // Clone and sort
@@ -122,19 +153,21 @@ public class GUIInfluencerVisualization extends Window implements ClickAction {
         for (int i = 0; i < working.getLength(); i++) {
             displayedInfluencers.add(working.getEntry(i));
         }
+        
+        autoResizeWindow();
 
         redraw();
     }
 
     private void redraw() {
-        clearShapes();
+        window.removeAllShapes();
 
         int n = displayedInfluencers.size();
         if (n == 0) return;
 
         // Chart area
         int chartTop = 130;
-        int chartHeight = getHeight() - chartTop - 40;
+        int chartHeight = window.getHeight() - chartTop - 40;
         int startX = 50;
 
         // Find max rate for scaling
@@ -150,26 +183,25 @@ public class GUIInfluencerVisualization extends Window implements ClickAction {
             double rate = getRate(inf);
 
             int x = startX + i * (BAR_WIDTH + BAR_GAP);
-            int barBottom = getHeight() - 30;
+            int barBottom = window.getHeight() - 30;
             int barHeight = Double.isNaN(rate) ? 0 : (int) ((rate / maxRate) * (chartHeight - 20));
             int barTop = barBottom - barHeight;
 
             // Bar
             Shape bar = new Shape(x, barTop, BAR_WIDTH, barHeight);
-            bar.setFilled(true);
-            bar.setFillColor(BAR_COLOR);
-            addShape(bar);
+            bar.setForegroundColor(BAR_COLOR);
+            window.addShape(bar);
+
 
             // Channel name (X-axis label)
             TextShape nameLabel = new TextShape(x + BAR_WIDTH / 2, barBottom + 5, inf.getChannelName());
-            nameLabel.setFontSize(10);
-            addShape(nameLabel);
+            window.addShape(nameLabel);
 
             // Rate value (above bar)
             String rateStr = Double.isNaN(rate) ? "N/A" : DF.format(rate);
             TextShape rateLabel = new TextShape(x + BAR_WIDTH / 2, barTop - LABEL_OFFSET, rateStr);
-            rateLabel.setFontSize(11);
-            addShape(rateLabel);
+//            rateLabel.setFontSize(11);
+            window.addShape(rateLabel);
         }
     }
 

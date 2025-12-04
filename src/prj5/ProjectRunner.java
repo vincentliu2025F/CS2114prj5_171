@@ -33,8 +33,8 @@ public class ProjectRunner
             filer = new InputFileReader("SampleInput1_2023.csv");
         }
 
-        boolean showConsole = true;
-        boolean showGUI = false;
+        boolean showConsole = false;
+        boolean showGUI = true;
 
         if (showConsole)
         {
