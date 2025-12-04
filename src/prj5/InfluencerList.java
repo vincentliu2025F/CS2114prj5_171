@@ -59,6 +59,7 @@ public class InfluencerList
     private int size;
     private InfluencerNameComparator nameComparator;
     private InfluencerReachRateComparator reachRateComparator;
+    private InfluencerTraditionalRateComparator traditionalComparator;
 
     // ----------------------------------------------------------
     /**
@@ -70,6 +71,8 @@ public class InfluencerList
         size = 0;
         nameComparator = new InfluencerNameComparator();
         reachRateComparator = new InfluencerReachRateComparator();
+        traditionalComparator = new InfluencerTraditionalRateComparator();
+
     }
 
 
@@ -315,6 +318,15 @@ public class InfluencerList
     public void sortByChannelName()
     {
         insertionSort(this.nameComparator);
+    }
+
+
+    /**
+     * Uses insertion sort to sort the list by traditional engagement rate
+     */
+    public void sortByTraditionalRate()
+    {
+        insertionSort(traditionalComparator);
     }
 
 
