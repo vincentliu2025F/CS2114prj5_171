@@ -119,21 +119,6 @@ public class GUIInfluencerVisualization {
 
         updateDisplay();
     }
-    
-    private void autoResizeWindow() {
-        int n = displayedInfluencers.size();
-
-        int startX = 50;              
-        int rightMargin = 80;         
-        int widthNeeded = startX + n * (BAR_WIDTH + BAR_GAP) + rightMargin;
-
-        int minWidth = 500;           
-        int finalWidth = Math.max(minWidth, widthNeeded);
-
-        int currentHeight = window.getHeight();
-
-        window.setSize(finalWidth, currentHeight);
-    }
 
 
     private void updateDisplay() {
@@ -154,7 +139,6 @@ public class GUIInfluencerVisualization {
             displayedInfluencers.add(working.getEntry(i));
         }
         
-        autoResizeWindow();
 
         redraw();
     }
@@ -164,10 +148,13 @@ public class GUIInfluencerVisualization {
 
         int n = displayedInfluencers.size();
         if (n == 0) return;
+        
+        int panelHeight = window.getGraphPanelHeight(); 
+        int panelWidth  = window.getGraphPanelWidth();
 
         // Chart area
         int chartTop = 130;
-        int chartHeight = window.getHeight() - chartTop - 40;
+        int chartHeight = panelHeight - chartTop - 40;
         int startX = 50;
 
         // Find max rate for scaling
@@ -183,7 +170,7 @@ public class GUIInfluencerVisualization {
             double rate = getRate(inf);
 
             int x = startX + i * (BAR_WIDTH + BAR_GAP);
-            int barBottom = window.getHeight() - 30;
+            int barBottom = panelHeight - 30;
             int barHeight = Double.isNaN(rate) ? 0 : (int) ((rate / maxRate) * (chartHeight - 20));
             int barTop = barBottom - barHeight;
 
