@@ -29,7 +29,7 @@ public class InfluencerReachRateMonthComparator
         double aRate = calculate(a);
         double bRate = calculate(b);
 
-        return Double.compare(aRate, bRate);
+        return Double.compare(bRate, aRate);
     }
 
 

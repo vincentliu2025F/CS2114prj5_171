@@ -149,12 +149,7 @@ public class GUIInfluencerVisualization
         if ("Channel Name".equals(sort))
         {
             working.sortByChannelName();
-            
-            displayedInfluencers.clear();
-            for (int i = 0; i < working.getLength(); i++)
-            {
-                displayedInfluencers.add(working.getEntry(i));
-            }
+
         }
         else if ("Engagement Rate".equals(sort))
         {
@@ -191,20 +186,17 @@ public class GUIInfluencerVisualization
                         break;
                     default: // First Quarter
                         working.sortByReachRate();
+                        break;
                 }
-
-            }
-            
-            displayedInfluencers.clear();
-            for (int i = working.getLength() - 1; i >= 0; i--)
-            {
-                displayedInfluencers.add(working.getEntry(i));
             }
 
         }
 
-       
-
+        displayedInfluencers.clear();
+        for (int i = 0; i < working.getLength(); i++)
+        {
+            displayedInfluencers.add(working.getEntry(i));
+        }
 
         redraw();
     }

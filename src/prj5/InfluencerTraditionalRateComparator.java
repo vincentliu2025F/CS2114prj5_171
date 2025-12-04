@@ -32,6 +32,6 @@ public class InfluencerTraditionalRateComparator
 
             return -1;
         }
-        return Double.compare(rateA, rateB);
+        return Double.compare(rateB, rateA);
     }
 }
