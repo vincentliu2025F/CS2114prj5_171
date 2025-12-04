@@ -34,7 +34,7 @@ public class GUIInfluencerVisualization {
 
     // Constants
     private static final int BAR_WIDTH = 60;
-    private static final int BAR_GAP = 30;
+    private static final int BAR_GAP = 60;
     private static final int LABEL_OFFSET = 25;
     private static final double DISPLAY_FACTOR = 1.5;
 
@@ -170,7 +170,7 @@ public class GUIInfluencerVisualization {
             double rate = getRate(inf);
 
             int x = startX + i * (BAR_WIDTH + BAR_GAP);
-            int barBottom = panelHeight - 30;
+            int barBottom = panelHeight - 70;
             int barHeight = Double.isNaN(rate) ? 0 : (int) ((rate / maxRate) * (chartHeight - 20));
             int barTop = barBottom - barHeight;
 
@@ -181,13 +181,24 @@ public class GUIInfluencerVisualization {
 
 
             // Channel name (X-axis label)
-            TextShape nameLabel = new TextShape(x + BAR_WIDTH / 2, barBottom + 5, inf.getChannelName());
+            TextShape nameLabel = new TextShape(0, 0, inf.getChannelName());
+            int textX = x + BAR_WIDTH / 2 - nameLabel.getWidth() / 2;
+            int textY = barBottom + 5;
+
+            nameLabel.setX(textX);
+            nameLabel.setY(textY);
             window.addShape(nameLabel);
 
             // Rate value (above bar)
             String rateStr = Double.isNaN(rate) ? "N/A" : DF.format(rate);
-            TextShape rateLabel = new TextShape(x + BAR_WIDTH / 2, barTop - LABEL_OFFSET, rateStr);
-//            rateLabel.setFontSize(11);
+            TextShape rateLabel = new TextShape(0, 0, rateStr);
+
+            int rateX = x + BAR_WIDTH / 2 - rateLabel.getWidth() / 2;
+            int rateY = textY + nameLabel.getHeight() + 3;  
+
+            rateLabel.setX(rateX);
+            rateLabel.setY(rateY);
+
             window.addShape(rateLabel);
         }
     }
