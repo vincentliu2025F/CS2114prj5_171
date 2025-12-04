@@ -55,7 +55,7 @@ public class GUIInfluencerVisualization
     public GUIInfluencerVisualization(InfluencerList list)
     {
         this.originalList = list;
-        window = new Window("Influencer Data Visualizer");
+        window = new Window("ryanjeronimsus vinventliu nabiilf");
         window
             .setSize((int)(500 * DISPLAY_FACTOR), (int)(500 * DISPLAY_FACTOR));
 
