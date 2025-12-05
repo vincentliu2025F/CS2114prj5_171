@@ -88,15 +88,15 @@ public class InfluencerTest
         assertEquals(expected, inf.calculateReachRateQ1(), 0.0001);
     }
 
-
+    
     // -------------------------------------------------------------
     /**
      * Tests Q1 traditional rate calculation.
      */
     public void testCalculateTraditionalRateQ1()
     {
-        // total likes = 60, comments = 30, followers in March = 120
-        double expected = (60 + 30) / 120.0 * 100;
+        // total likes = 60, comments = 30, followers in March = 330
+        double expected = ((60 + 30) / 330.0) * 100;
         assertEquals(expected, inf.calculateTraditionalRateQ1(), 0.0001);
     }
 

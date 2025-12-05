@@ -372,6 +372,10 @@ public class InfluencerListTest
     }
 
 
+    // ----------------------------------------------------------
+    /**
+     * Test sorting the list by traditional rate (general)
+     */
     public void testSortByTraditionalRate()
     {
         InfluencerList list = new InfluencerList();
@@ -401,6 +405,10 @@ public class InfluencerListTest
     }
 
 
+    // ----------------------------------------------------------
+    /**
+     * Test sorting traditional rate by a specific month
+     */
     public void testSortByTraditionalRateMonth()
     {
         InfluencerList list = new InfluencerList();
