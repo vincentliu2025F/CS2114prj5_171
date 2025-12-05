@@ -372,6 +372,94 @@ public class InfluencerListTest
     }
 
 
+    public void testSortByTraditionalRate()
+    {
+        InfluencerList list = new InfluencerList();
+
+        Influencer high = new Influencer("u1", "High", "USA", "art");
+        Influencer mid = new Influencer("u2", "Mid", "USA", "tech");
+        Influencer nan = new Influencer("u3", "NoViews", "USA", "travel");
+        high.addDataForMonth(0, 100, 1, 1000, 50, 1000);
+        high.addDataForMonth(1, 120, 1, 1000, 60, 1000);
+        high.addDataForMonth(2, 140, 1, 1000, 80, 1000);
+        mid.addDataForMonth(0, 10, 1, 1000, 5, 1000);
+        mid.addDataForMonth(1, 20, 1, 1000, 10, 1000);
+        mid.addDataForMonth(2, 30, 1, 1000, 15, 1000);
+        nan.addDataForMonth(0, 10, 1, 1000, 5, 0);
+        nan.addDataForMonth(1, 10, 1, 1000, 5, 0);
+        nan.addDataForMonth(2, 10, 1, 1000, 5, 0);
+
+        list.add(mid);
+        list.add(nan);
+        list.add(high);
+
+        list.sortByTraditionalRate();
+
+        assertEquals("High", list.getEntry(0).getChannelName());
+        assertEquals("Mid", list.getEntry(1).getChannelName());
+        assertEquals("NoViews", list.getEntry(2).getChannelName());
+    }
+
+
+    public void testSortByTraditionalRateMonth()
+    {
+        InfluencerList list = new InfluencerList();
+
+        Influencer high = new Influencer("u1", "High", "USA", "art");
+        Influencer mid = new Influencer("u2", "Mid", "USA", "tech");
+        Influencer nan = new Influencer("u3", "NoViews", "USA", "travel");
+        high.addDataForMonth(0, 100, 1, 1000, 50, 1000);
+        high.addDataForMonth(1, 120, 1, 1000, 60, 1000);
+        high.addDataForMonth(2, 140, 1, 1000, 80, 1000);
+        mid.addDataForMonth(0, 10, 1, 1000, 5, 1000);
+        mid.addDataForMonth(1, 20, 1, 1000, 10, 1000);
+        mid.addDataForMonth(2, 30, 1, 1000, 15, 1000);
+        nan.addDataForMonth(0, 10, 1, 1000, 5, 0);
+        nan.addDataForMonth(1, 10, 1, 1000, 5, 0);
+        nan.addDataForMonth(2, 10, 1, 1000, 5, 0);
+
+        list.add(mid);
+        list.add(nan);
+        list.add(high);
+
+        list.sortByTraditionalRateForMonth(0);
+
+        assertEquals("High", list.getEntry(0).getChannelName());
+        assertEquals("Mid", list.getEntry(1).getChannelName());
+        assertEquals("NoViews", list.getEntry(2).getChannelName());
+    }
+
+
+    /**
+     * insertion sort by reach rate
+     */
+    public void testSortByReachRateMonth()
+    {
+        InfluencerList list = new InfluencerList();
+
+        Influencer high = new Influencer("u1", "High", "USA", "art");
+        Influencer mid = new Influencer("u2", "Mid", "USA", "tech");
+        Influencer nan = new Influencer("u3", "NoViews", "USA", "travel");
+        high.addDataForMonth(0, 100, 1, 1000, 50, 1000);
+        high.addDataForMonth(1, 120, 1, 1000, 60, 1000);
+        high.addDataForMonth(2, 140, 1, 1000, 80, 1000);
+        mid.addDataForMonth(0, 10, 1, 1000, 5, 1000);
+        mid.addDataForMonth(1, 20, 1, 1000, 10, 1000);
+        mid.addDataForMonth(2, 30, 1, 1000, 15, 1000);
+        nan.addDataForMonth(0, 10, 1, 1000, 5, 0);
+        nan.addDataForMonth(1, 10, 1, 1000, 5, 0);
+        nan.addDataForMonth(2, 10, 1, 1000, 5, 0);
+
+        list.add(mid);
+        list.add(nan);
+        list.add(high);
+        list.sortByReachRateForMonth(1);
+        assertEquals("High", list.getEntry(0).getChannelName());
+        assertEquals("Mid", list.getEntry(1).getChannelName());
+        assertEquals("NoViews", list.getEntry(2).getChannelName());
+    }
+
+
     // ----------------------------------------------------------
     /**
      * tests the contains method

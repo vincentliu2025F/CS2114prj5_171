@@ -11,9 +11,9 @@ import java.util.List;
  * (Window, Button, Shape, TextShape, etc.). Supports time period, formula, and
  * sort selection with persistent state.
  */
+
 public class GUIInfluencerVisualization
 {
-
     private Window window;
     private InfluencerList originalList;
     private List<Influencer> displayedInfluencers = new ArrayList<>();
@@ -24,7 +24,7 @@ public class GUIInfluencerVisualization
     private String formula = "Traditional";       // "Traditional", "Reach"
     private String sort = "Channel Name";        // "Channel Name", "Engagement
                                                  // Rate"
-
+   
     // Formatting
     private static final DecimalFormat DF = new DecimalFormat("#.#");
     private static final Color BAR_COLOR = new Color(70, 130, 180); // Steel
@@ -237,7 +237,7 @@ public class GUIInfluencerVisualization
                 ? 0
                 : (int)((rate / maxRate) * (chartHeight - 20));
             int barTop = barBottom - barHeight;
-
+            
             // Bar
             Shape bar = new Shape(x, barTop, BAR_WIDTH, barHeight);
             bar.setForegroundColor(BAR_COLOR);
@@ -255,7 +255,7 @@ public class GUIInfluencerVisualization
             // Rate value (above bar)
             String rateStr = Double.isNaN(rate) ? "N/A" : DF.format(rate);
             TextShape rateLabel = new TextShape(0, 0, rateStr);
-
+            
             int rateX = x + BAR_WIDTH / 2 - rateLabel.getWidth() / 2;
             int rateY = textY + nameLabel.getHeight() + 3;
 
