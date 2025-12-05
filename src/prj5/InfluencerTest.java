@@ -88,7 +88,7 @@ public class InfluencerTest
         assertEquals(expected, inf.calculateReachRateQ1(), 0.0001);
     }
 
-    
+
     // -------------------------------------------------------------
     /**
      * Tests Q1 traditional rate calculation.

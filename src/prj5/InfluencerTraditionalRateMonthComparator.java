@@ -43,7 +43,7 @@ public class InfluencerTraditionalRateMonthComparator
         double comments = inf.getComments(month);
         double followers = inf.getFollowers(month);
 
-        if (followers == 0)
+        if ((int)followers == 0)
         {
             return Double.NaN;
         }

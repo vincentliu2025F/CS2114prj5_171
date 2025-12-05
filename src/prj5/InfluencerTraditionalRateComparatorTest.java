@@ -2,33 +2,37 @@ package prj5;
 
 import student.TestCase;
 
-
 // -------------------------------------------------------------------------
 /**
- *  tests the TraditonalRate comparator object.
+ * tests the TraditonalRate comparator object.
  * 
- *  @author ryanjeronimus
- *  @version Dec 5, 2025
+ * @author ryanjeronimus
+ * @version Dec 5, 2025
  */
-public class InfluencerTraditionalRateComparatorTest extends TestCase {
-    //~ Fields ................................................................
+public class InfluencerTraditionalRateComparatorTest
+    extends TestCase
+{
+    // ~ Fields ................................................................
     private InfluencerTraditionalRateComparator comparator;
 
-    
     /**
      * sets up member variables for testing
      */
-    public void setUp() {
+    public void setUp()
+    {
         comparator = new InfluencerTraditionalRateComparator();
 
     }
+
+
     // ----------------------------------------------------------
     /**
      * Tests the comparator compare method thoroughly
      */
-    //~Public  Methods ........................................................
-    public void testCompare() {
-        
+    // ~Public Methods ........................................................
+    public void testCompare()
+    {
+
         Influencer high = new Influencer("u1", "High", "USA", "art");
         Influencer nan = new Influencer("u3", "NoViews", "USA", "travel");
         high.addDataForMonth(0, 100, 1, 1000, 50, 1000);
@@ -37,19 +41,17 @@ public class InfluencerTraditionalRateComparatorTest extends TestCase {
         nan.addDataForMonth(0, 10, 1, 1000, 5, 0);
         nan.addDataForMonth(1, 10, 1, 1000, 5, 0);
         nan.addDataForMonth(2, 10, 1, 1000, 5, 0);
-        
+
+        nan.setFollowers(0, 0);
         nan.setFollowers(0, 1);
         nan.setFollowers(0, 2);
-        nan.setFollowers(0, 3);
-        nan.setFollowers(1, 1);
-        
+
         assertEquals(1, comparator.compare(nan, high));
         assertEquals(-1, comparator.compare(high, nan));
         assertEquals(0, comparator.compare(nan, nan));
-        
-        assertEquals(-1, comparator.compare(high, nan));
-     
-        
+        nan.setFollowers(1, 1);
+        assertEquals(1, comparator.compare(high, nan));
+
     }
 
 }
